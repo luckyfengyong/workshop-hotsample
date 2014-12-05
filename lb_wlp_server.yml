@@ -10,6 +10,8 @@ parameters:
   key_name:
     type: string
     description: SSH key to connect to the servers
+  private_net_id:
+    type: string
   pool_id:
     type: string
     description: Pool to contact
@@ -28,7 +30,7 @@ resources:
     properties:
       containers:
         - description: "web server"
-          name: git-monitor
+          name: web-server
           flavor: {get_param: flavor}
           image: dockerfile/nginx
           scheduler_hints: {get_param: scheduler_hints}
@@ -52,12 +54,18 @@ resources:
           volumeMounts:
             - name: www-data
               mountPath: /data
-       dependencies:
-         - type: 'OnStart'
-           satisfy: 'STARTED'
-           keep: 'STARTED'
-           autoStart: false
-           activity: { get_param: xxx }
+        volumes:
+          - name: string
+            source: emptyDir 
+            emptyDir: {}
+        network_id: {get_param: private_net_id}
+        control_policy:        
+          dependencies:
+            - type: 'OnStart'
+              satisfy: 'STARTED'
+              keep: 'STARTED'
+              autoStart: false
+              activity: { get_param: xxx }
 
   member:
     type: OS::Neutron::PoolMember

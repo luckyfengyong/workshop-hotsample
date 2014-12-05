@@ -44,13 +44,19 @@ resources:
           network_id: {get_param: private_net_id}
           stdout_file: '/tmp/a'
           stderr_file: '/tmp/b'
-       control_policy:
-         host_failover_intervel: 60
-         failover_fencing: '$fencing_script_path'
-         failover_fencing_wait_period: 120
-       scheduler_hints: '[">=","$free_ram_mb",1024, "==","$name", "host1"]'
-       activity_monitor: '/opt/bin/Monitor.sh'
-       activity_monitor_max_update_interval: 60
+      volumes:
+        - name: string
+          source: HostDir
+          hostDir:
+            path: /mnt/share/db2
+
+      control_policy:
+        host_failover_intervel: 60
+        failover_fencing: '$fencing_script_path'
+        failover_fencing_wait_period: 120
+      scheduler_hints: '[">=","$free_ram_mb",1024, "==","$name", "host1"]'
+      monitor: '/opt/bin/Monitor.sh'
+      monitor_max_update_interval: 60
 
   wlp_server_group:
     type: OS::Heat::AutoScalingGroup
@@ -70,7 +76,8 @@ resources:
             scheduler_hints: {group_policy: {get_resource: policy_group_RLPNF}}
             nameserver: { get_param: nameserver }
             chef_server_url: { get_param: chef_server_url }	
- 
+            network_id: {get_param: private_net_id}
+
   policy_group_RLPNF:
     type: IBM::Policy::Group
     properties:
