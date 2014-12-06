@@ -25,22 +25,22 @@ resources:
     type: IBMInc::EGO::Activity
     properties:
       containers:
-	    - description: "db2 server"
-	      name: "db2"
-	      flavor: {get_param: flavor}
+        - description: "db2 server"
+          name: "db2"
+          flavor: {get_param: flavor}
           image: dockerfile/db2
           ports:
             - containerPort: 8083
-	      volumeMounts:
+          volumeMounts:
             - name: db-data
               mountPath: /srv/db2
           env:
-	        - name: key_name
-		      value: {get_param: key_name}
-		    - name: nameserver
-		      value: { get_param: nameserver }
-		    - name: chef_server_url
-		      value: { get_param: chef_server_url }
+            - name: key_name
+              value: {get_param: key_name}
+            - name: nameserver
+              value: { get_param: nameserver }
+            - name: chef_server_url
+              value: { get_param: chef_server_url }
           network_id: {get_param: private_net_id}
           stdout_file: '/tmp/a'
           stderr_file: '/tmp/b'

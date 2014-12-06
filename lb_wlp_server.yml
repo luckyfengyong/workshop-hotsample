@@ -36,7 +36,7 @@ resources:
           scheduler_hints: {get_param: scheduler_hints}
           ports:
             - containerPort: 9080
-	      volumeMounts:
+          volumeMounts:
             - name: www-data
               mountPath: /srv/www
           env:
