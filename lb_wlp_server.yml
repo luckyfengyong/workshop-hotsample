@@ -54,18 +54,18 @@ resources:
           volumeMounts:
             - name: www-data
               mountPath: /data
-        volumes:
-          - name: string
-            source: emptyDir 
-            emptyDir: {}
-        network_id: {get_param: private_net_id}
-        control_policy:        
-          dependencies:
-            - type: 'OnStart'
-              satisfy: 'STARTED'
-              keep: 'STARTED'
-              autoStart: false
-              activity: { get_param: xxx }
+      volumes:
+        - name: string
+          source: emptyDir 
+          emptyDir: {}
+      network_id: {get_param: private_net_id}
+      control_policy:        
+        dependencies:
+          - type: 'OnStart'
+            satisfy: 'STARTED'
+            keep: 'STARTED'
+            autoStart: false
+            activity: { get_param: xxx }
 
   member:
     type: OS::Neutron::PoolMember

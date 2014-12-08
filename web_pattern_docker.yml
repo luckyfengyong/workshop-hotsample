@@ -45,7 +45,7 @@ resources:
           stdout_file: '/tmp/a'
           stderr_file: '/tmp/b'
       volumes:
-        - name: string
+        - name: db-data
           source: HostDir
           hostDir:
             path: /mnt/share/db2
